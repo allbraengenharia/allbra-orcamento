@@ -1,0 +1,340 @@
+{
+  "tipologia": "Residencial",
+  "subtipologias": ["MCMV (interesse social)", "Térrea", "Sobrado", "Vertical"],
+  "ativas": ["MCMV (interesse social)", "Térrea"],
+  "perguntas": [
+    {
+      "id": "regime",
+      "etapa": "0. Enquadramento",
+      "pergunta": "Qual o regime de contratação?",
+      "opcoes": [
+        {"valor": "global", "rotulo": "Empreitada global (material + mão de obra)"},
+        {"valor": "mao_obra", "rotulo": "Empreitada de mão de obra"},
+        {"valor": "preco_unitario", "rotulo": "Empreitada por preço unitário"},
+        {"valor": "administracao", "rotulo": "Administração (custo + taxa)"},
+        {"valor": "tarefa", "rotulo": "Tarefa"}
+      ]
+    },
+    {
+      "id": "padrao",
+      "etapa": "0. Enquadramento",
+      "pergunta": "Qual o padrão de acabamento?",
+      "opcoes": [
+        {"valor": "popular", "rotulo": "Popular / MCMV"},
+        {"valor": "baixo", "rotulo": "Baixo (NBR 12721)"},
+        {"valor": "normal", "rotulo": "Normal (NBR 12721)"},
+        {"valor": "alto", "rotulo": "Alto (NBR 12721)"},
+        {"valor": "misto", "rotulo": "Misto (definir por ambiente)"}
+      ]
+    },
+    {
+      "id": "geometria",
+      "etapa": "1. Dados da planta",
+      "pergunta": "Confirme as medidas lidas da planta baixa",
+      "ajuda": "Nesta fase os valores são digitados. Na fase 4 a IA vai pré-preencher a partir do PDF.",
+      "opcoes": [],
+      "campos": [
+        {"id": "area_terreno", "rotulo": "Área do terreno (m²)", "padrao": 200.0, "passo": 1.0},
+        {"id": "area_construida", "rotulo": "Área construída (m²)", "padrao": 45.0, "passo": 0.5},
+        {"id": "area_util", "rotulo": "Área útil / de piso (m²)", "padrao": 39.0, "passo": 0.5},
+        {"id": "perimetro_ext", "rotulo": "Perímetro das paredes externas (m)", "padrao": 28.0, "passo": 0.5},
+        {"id": "paredes_int", "rotulo": "Comprimento das paredes internas (m)", "padrao": 18.0, "passo": 0.5},
+        {"id": "pe_direito", "rotulo": "Pé-direito (m)", "padrao": 2.60, "passo": 0.05},
+        {"id": "frente_terreno", "rotulo": "Testada do terreno (m)", "padrao": 10.0, "passo": 0.5},
+        {"id": "area_molhada_parede", "rotulo": "Revestimento cerâmico de parede em áreas molhadas (m²)", "padrao": 25.0, "passo": 0.5}
+      ]
+    },
+    {
+      "id": "esquadrias_qtd",
+      "etapa": "1. Dados da planta",
+      "pergunta": "Confirme as esquadrias (quadro de esquadrias ou contagem na planta)",
+      "opcoes": [],
+      "campos": [
+        {"id": "portas_int", "rotulo": "Portas internas (un)", "padrao": 4, "passo": 1, "inteiro": true},
+        {"id": "portas_ext", "rotulo": "Portas externas (un)", "padrao": 2, "passo": 1, "inteiro": true},
+        {"id": "area_janelas", "rotulo": "Área total de janelas (m²)", "padrao": 5.5, "passo": 0.1},
+        {"id": "banheiros", "rotulo": "Banheiros (un)", "padrao": 1, "passo": 1, "inteiro": true}
+      ]
+    },
+    {
+      "id": "projetos",
+      "etapa": "1. Dados da planta",
+      "pergunta": "Quais projetos complementares você possui?",
+      "multipla": true,
+      "opcoes": [
+        {"valor": "cortes", "rotulo": "Cortes"},
+        {"valor": "fachadas", "rotulo": "Fachadas"},
+        {"valor": "cobertura", "rotulo": "Planta de cobertura"},
+        {"valor": "estrutural", "rotulo": "Estrutural"},
+        {"valor": "hidrossanitario", "rotulo": "Hidrossanitário"},
+        {"valor": "eletrico", "rotulo": "Elétrico"},
+        {"valor": "sondagem", "rotulo": "Sondagem (SPT)"},
+        {"valor": "topografia", "rotulo": "Levantamento topográfico"},
+        {"valor": "memorial", "rotulo": "Memorial descritivo"}
+      ],
+      "ajuda": "Projetos não marcados serão estimados por índices e aparecem como 'paramétrica' no orçamento."
+    },
+    {
+      "id": "topografia",
+      "etapa": "2. Terreno",
+      "pergunta": "Qual a topografia do terreno?",
+      "opcoes": [
+        {"valor": "plano", "rotulo": "Plano"},
+        {"valor": "aclive_leve", "rotulo": "Aclive leve"},
+        {"valor": "aclive_acentuado", "rotulo": "Aclive acentuado"},
+        {"valor": "declive_leve", "rotulo": "Declive leve"},
+        {"valor": "declive_acentuado", "rotulo": "Declive acentuado"}
+      ],
+      "campos": [
+        {"id": "corte_m3", "rotulo": "Volume de corte (m³)", "padrao": 0.0, "passo": 1.0, "quando": ["aclive_leve", "aclive_acentuado", "declive_leve", "declive_acentuado"]},
+        {"id": "aterro_m3", "rotulo": "Volume de aterro (m³)", "padrao": 0.0, "passo": 1.0, "quando": ["aclive_leve", "aclive_acentuado", "declive_leve", "declive_acentuado"]}
+      ]
+    },
+    {
+      "id": "solo",
+      "etapa": "2. Terreno",
+      "pergunta": "Qual o tipo de solo predominante?",
+      "opcoes": [
+        {"valor": "argiloso", "rotulo": "Argiloso"},
+        {"valor": "arenoso", "rotulo": "Arenoso"},
+        {"valor": "misto", "rotulo": "Misto (argila arenosa)"},
+        {"valor": "rochoso", "rotulo": "Rochoso"},
+        {"valor": "aterro", "rotulo": "Aterro existente"}
+      ]
+    },
+    {
+      "id": "esgoto",
+      "etapa": "2. Terreno",
+      "pergunta": "Qual o destino do esgoto?",
+      "opcoes": [
+        {"valor": "rede", "rotulo": "Rede pública"},
+        {"valor": "fossa_sumidouro", "rotulo": "Fossa séptica + sumidouro"},
+        {"valor": "fossa_filtro", "rotulo": "Fossa + filtro anaeróbio + sumidouro"},
+        {"valor": "ete", "rotulo": "ETE compacta"},
+        {"valor": "existente", "rotulo": "Sistema existente"}
+      ]
+    },
+    {
+      "id": "energia",
+      "etapa": "2. Terreno",
+      "pergunta": "Qual o padrão de entrada de energia?",
+      "opcoes": [
+        {"valor": "mono", "rotulo": "Monofásico"},
+        {"valor": "bi", "rotulo": "Bifásico"},
+        {"valor": "tri", "rotulo": "Trifásico"},
+        {"valor": "existente", "rotulo": "Padrão existente"},
+        {"valor": "subterranea", "rotulo": "Entrada subterrânea"}
+      ]
+    },
+    {
+      "id": "muro",
+      "etapa": "2. Terreno",
+      "pergunta": "Qual o cercamento do terreno?",
+      "opcoes": [
+        {"valor": "bloco", "rotulo": "Muro de bloco de concreto"},
+        {"valor": "ceramico", "rotulo": "Muro de tijolo cerâmico"},
+        {"valor": "alambrado", "rotulo": "Alambrado"},
+        {"valor": "gradil", "rotulo": "Gradil"},
+        {"valor": "nenhum", "rotulo": "Não se aplica"}
+      ],
+      "campos": [
+        {"id": "muro_comprimento", "rotulo": "Comprimento do muro/cerca (m)", "padrao": 50.0, "passo": 1.0, "quando": ["bloco", "ceramico", "alambrado", "gradil"]},
+        {"id": "muro_altura", "rotulo": "Altura (m)", "padrao": 2.0, "passo": 0.1, "quando": ["bloco", "ceramico", "alambrado", "gradil"]}
+      ]
+    },
+    {
+      "id": "fundacao",
+      "etapa": "3. Fundação",
+      "pergunta": "Qual o tipo de fundação?",
+      "opcoes": [
+        {"valor": "radier", "rotulo": "Radier"},
+        {"valor": "broca_baldrame", "rotulo": "Estaca broca + viga baldrame"},
+        {"valor": "sapata_baldrame", "rotulo": "Sapata isolada + viga baldrame"},
+        {"valor": "sapata_corrida", "rotulo": "Sapata corrida"},
+        {"valor": "helice_baldrame", "rotulo": "Estaca hélice contínua + baldrame"}
+      ],
+      "campos": [
+        {"id": "radier_esp", "rotulo": "Espessura do radier (m)", "padrao": 0.10, "passo": 0.01, "quando": ["radier"]},
+        {"id": "radier_aco", "rotulo": "Taxa de aço do radier (kg/m²)", "padrao": 3.5, "passo": 0.1, "quando": ["radier"], "parametrico": true},
+        {"id": "estaca_prof", "rotulo": "Profundidade das estacas (m)", "padrao": 3.0, "passo": 0.5, "quando": ["broca_baldrame", "helice_baldrame"]},
+        {"id": "estaca_esp", "rotulo": "Espaçamento médio entre estacas (m)", "padrao": 2.5, "passo": 0.1, "quando": ["broca_baldrame", "helice_baldrame"], "parametrico": true},
+        {"id": "sapata_qtd", "rotulo": "Quantidade de sapatas (un)", "padrao": 0, "passo": 1, "inteiro": true, "quando": ["sapata_baldrame"], "ajuda": "0 = estimar 1 sapata a cada 12 m² de área construída"},
+        {"id": "sapata_vol", "rotulo": "Volume médio por sapata (m³)", "padrao": 0.35, "passo": 0.05, "quando": ["sapata_baldrame"], "parametrico": true},
+        {"id": "baldrame_b", "rotulo": "Largura da viga baldrame (m)", "padrao": 0.15, "passo": 0.01, "quando": ["broca_baldrame", "sapata_baldrame", "helice_baldrame"]},
+        {"id": "baldrame_h", "rotulo": "Altura da viga baldrame (m)", "padrao": 0.30, "passo": 0.01, "quando": ["broca_baldrame", "sapata_baldrame", "helice_baldrame"]},
+        {"id": "fundacao_aco", "rotulo": "Taxa de aço de baldrame/sapatas (kg/m³)", "padrao": 80.0, "passo": 5.0, "quando": ["broca_baldrame", "sapata_baldrame", "sapata_corrida", "helice_baldrame"], "parametrico": true}
+      ]
+    },
+    {
+      "id": "estrutura",
+      "etapa": "4. Superestrutura",
+      "pergunta": "Qual o sistema estrutural?",
+      "opcoes": [
+        {"valor": "concreto_armado", "rotulo": "Concreto armado (pilares, vigas e cintas)"},
+        {"valor": "alvenaria_estrutural", "rotulo": "Alvenaria estrutural"},
+        {"valor": "parede_concreto", "rotulo": "Paredes de concreto moldadas in loco"},
+        {"valor": "metalica", "rotulo": "Estrutura metálica"},
+        {"valor": "steel_frame", "rotulo": "Steel frame"}
+      ],
+      "campos": [
+        {"id": "indice_concreto", "rotulo": "Índice de concreto de pilares/vigas (m³ por m² construído)", "padrao": 0.045, "passo": 0.005, "quando": ["concreto_armado"], "parametrico": true},
+        {"id": "estrutura_aco", "rotulo": "Taxa de aço da estrutura (kg/m³)", "padrao": 90.0, "passo": 5.0, "quando": ["concreto_armado"], "parametrico": true},
+        {"id": "estrutura_forma", "rotulo": "Taxa de forma (m² por m³ de concreto)", "padrao": 12.0, "passo": 0.5, "quando": ["concreto_armado"], "parametrico": true}
+      ]
+    },
+    {
+      "id": "laje",
+      "etapa": "4. Superestrutura",
+      "pergunta": "Qual o tipo de laje / forro estrutural?",
+      "opcoes": [
+        {"valor": "trelicada_eps", "rotulo": "Laje treliçada com EPS"},
+        {"valor": "trelicada_ceramica", "rotulo": "Laje treliçada com lajota cerâmica"},
+        {"valor": "macica", "rotulo": "Laje maciça"},
+        {"valor": "sem_laje", "rotulo": "Sem laje (forro direto no telhado)"},
+        {"valor": "pre_moldada", "rotulo": "Laje pré-moldada / alveolar"}
+      ],
+      "campos": [
+        {"id": "laje_esp", "rotulo": "Espessura da laje (m)", "padrao": 0.12, "passo": 0.01, "quando": ["trelicada_eps", "trelicada_ceramica", "macica", "pre_moldada"]}
+      ]
+    },
+    {
+      "id": "vedacao",
+      "etapa": "5. Vedações",
+      "pergunta": "Qual o tipo de vedação?",
+      "opcoes": [
+        {"valor": "ceramico_9", "rotulo": "Bloco cerâmico 9 cm"},
+        {"valor": "ceramico_14", "rotulo": "Bloco cerâmico 14 cm"},
+        {"valor": "concreto_14", "rotulo": "Bloco de concreto 14 cm"},
+        {"valor": "macico", "rotulo": "Tijolo maciço"},
+        {"valor": "drywall", "rotulo": "Drywall (paredes internas)"}
+      ]
+    },
+    {
+      "id": "cobertura",
+      "etapa": "6. Cobertura",
+      "pergunta": "Qual o tipo de telha?",
+      "opcoes": [
+        {"valor": "ceramica", "rotulo": "Telha cerâmica"},
+        {"valor": "fibrocimento", "rotulo": "Telha de fibrocimento"},
+        {"valor": "metalica", "rotulo": "Telha metálica simples"},
+        {"valor": "termoacustica", "rotulo": "Telha termoacústica"},
+        {"valor": "laje_impermeabilizada", "rotulo": "Laje impermeabilizada (sem telhado)"}
+      ],
+      "campos": [
+        {"id": "inclinacao", "rotulo": "Inclinação do telhado (%)", "padrao": 35.0, "passo": 1.0, "quando": ["ceramica", "fibrocimento", "metalica", "termoacustica"]},
+        {"id": "beiral", "rotulo": "Beiral (m)", "padrao": 0.60, "passo": 0.05, "quando": ["ceramica", "fibrocimento", "metalica", "termoacustica"]}
+      ]
+    },
+    {
+      "id": "estrutura_telhado",
+      "etapa": "6. Cobertura",
+      "pergunta": "Qual a estrutura do telhado?",
+      "mostrar_se": {"pergunta": "cobertura", "em": ["ceramica", "fibrocimento", "metalica", "termoacustica"]},
+      "opcoes": [
+        {"valor": "madeira", "rotulo": "Madeira (tesouras, terças, caibros, ripas)"},
+        {"valor": "madeira_simplificada", "rotulo": "Madeira apoiada em oitões"},
+        {"valor": "metalica", "rotulo": "Metálica"},
+        {"valor": "mista", "rotulo": "Mista (metálica + madeira)"},
+        {"valor": "existente", "rotulo": "Existente / não se aplica"}
+      ]
+    },
+    {
+      "id": "piso",
+      "etapa": "7. Acabamentos",
+      "pergunta": "Qual o piso predominante?",
+      "opcoes": [
+        {"valor": "ceramico", "rotulo": "Cerâmico"},
+        {"valor": "porcelanato", "rotulo": "Porcelanato"},
+        {"valor": "vinilico", "rotulo": "Vinílico"},
+        {"valor": "cimentado", "rotulo": "Cimentado / queimado"},
+        {"valor": "laminado", "rotulo": "Laminado"}
+      ]
+    },
+    {
+      "id": "revestimento_parede",
+      "etapa": "7. Acabamentos",
+      "pergunta": "Qual o revestimento das paredes?",
+      "opcoes": [
+        {"valor": "chapisco_reboco", "rotulo": "Chapisco + reboco (massa única)"},
+        {"valor": "chapisco_emboco_reboco", "rotulo": "Chapisco + emboço + reboco"},
+        {"valor": "gesso", "rotulo": "Gesso liso (internas) + reboco (externas)"},
+        {"valor": "reboco_ext", "rotulo": "Reboco só nas faces externas"},
+        {"valor": "aparente", "rotulo": "Alvenaria aparente"}
+      ]
+    },
+    {
+      "id": "forro",
+      "etapa": "7. Acabamentos",
+      "pergunta": "Qual o forro?",
+      "opcoes": [
+        {"valor": "pvc", "rotulo": "Forro de PVC"},
+        {"valor": "gesso", "rotulo": "Forro de gesso"},
+        {"valor": "laje_pintada", "rotulo": "Laje rebocada e pintada"},
+        {"valor": "madeira", "rotulo": "Forro de madeira"},
+        {"valor": "sem_forro", "rotulo": "Sem forro"}
+      ]
+    },
+    {
+      "id": "pintura",
+      "etapa": "7. Acabamentos",
+      "pergunta": "Qual a pintura das paredes?",
+      "opcoes": [
+        {"valor": "latex_pva", "rotulo": "Látex PVA (internas) + acrílica (externas)"},
+        {"valor": "acrilica", "rotulo": "Acrílica em todas as faces"},
+        {"valor": "textura_ext", "rotulo": "Acrílica interna + textura externa"},
+        {"valor": "massa_acrilica", "rotulo": "Massa corrida + acrílica"},
+        {"valor": "sem_pintura", "rotulo": "Sem pintura"}
+      ]
+    },
+    {
+      "id": "portas",
+      "etapa": "8. Esquadrias",
+      "pergunta": "Qual o material das portas?",
+      "opcoes": [
+        {"valor": "madeira_semi_oca", "rotulo": "Madeira semioca"},
+        {"valor": "madeira_macica", "rotulo": "Madeira maciça"},
+        {"valor": "aluminio", "rotulo": "Alumínio"},
+        {"valor": "aco", "rotulo": "Aço"},
+        {"valor": "pvc", "rotulo": "PVC"}
+      ]
+    },
+    {
+      "id": "janelas",
+      "etapa": "8. Esquadrias",
+      "pergunta": "Qual o material das janelas?",
+      "opcoes": [
+        {"valor": "aluminio", "rotulo": "Alumínio com vidro"},
+        {"valor": "aco", "rotulo": "Aço (veneziana/basculante)"},
+        {"valor": "pvc", "rotulo": "PVC"},
+        {"valor": "madeira", "rotulo": "Madeira"},
+        {"valor": "vidro_temperado", "rotulo": "Vidro temperado"}
+      ]
+    },
+    {
+      "id": "instalacoes",
+      "etapa": "9. Instalações",
+      "pergunta": "Confirme os pontos de instalação",
+      "ajuda": "Sem projeto complementar, os valores sugeridos são estimados pela área e pelo número de banheiros.",
+      "opcoes": [],
+      "campos": [
+        {"id": "pontos_eletricos", "rotulo": "Pontos elétricos (tomadas + iluminação) (un)", "padrao": 0, "passo": 1, "inteiro": true, "ajuda": "0 = estimar 0,6 ponto por m² construído", "parametrico": true},
+        {"id": "pontos_agua", "rotulo": "Pontos de água fria (un)", "padrao": 0, "passo": 1, "inteiro": true, "ajuda": "0 = estimar 5 por banheiro + 3 (cozinha, tanque, externo)", "parametrico": true},
+        {"id": "pontos_esgoto", "rotulo": "Pontos de esgoto (un)", "padrao": 0, "passo": 1, "inteiro": true, "ajuda": "0 = estimar 4 por banheiro + 2", "parametrico": true},
+        {"id": "caixa_dagua_l", "rotulo": "Caixa d'água (litros)", "padrao": 500, "passo": 250, "inteiro": true}
+      ]
+    },
+    {
+      "id": "calcada",
+      "etapa": "10. Complementares",
+      "pergunta": "Quais serviços externos incluir?",
+      "multipla": true,
+      "opcoes": [
+        {"valor": "calcada_perimetro", "rotulo": "Calçada de proteção no perímetro"},
+        {"valor": "passeio_publico", "rotulo": "Passeio público (testada)"},
+        {"valor": "limpeza_final", "rotulo": "Limpeza final da obra"},
+        {"valor": "ligacoes", "rotulo": "Ligações definitivas de água e energia"},
+        {"valor": "placa_obra", "rotulo": "Placa de obra"}
+      ]
+    }
+  ]
+}
